@@ -3,11 +3,54 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <title>Hello World!</title>
+    <style>
+        table   {
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+        table  th {
+            border: 1px solid black;
+            padding: 5px;
+        }
+        table  td {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Выйти"/>
 </form>
 <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+
+<br>
+
+<p><a th:href="@{/newbook}">Добавить новую книгу</a></p>
+
+<br>
+
+<div th:unless="${#lists.isEmpty(books)}">
+    <table>
+        <tr>
+            <th>Название</th>
+            <th>Автор</th>
+            <th>Описание</th>
+            <th>Добавлено пользователем</th>
+            <th>Дата создания</th>
+            <th>Дата последнего обновления</th>
+        </tr>
+        <tr th:each="book: ${books}">
+            <td th:text="${book.getName()}"></td>
+            <td th:text="${book.getWriter()}"></td>
+            <td th:text="${book.getDescription()}"></td>
+            <td th:text="${book.getUser().getUsername()}"></td>
+            <td th:text="${#dates.format(book.getCreatedDate(), 'd MMM yyyy HH:mm:ss')}"></td>
+            <td th:text="${#dates.format(book.getUpdatedDate(), 'd MMM yyyy HH:mm:ss')}"></td>
+        </tr>
+    </table>
+</div>
+
 </body>
 </html>

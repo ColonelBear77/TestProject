@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить новую книгу</title>
+</head>
+<body>
+<form th:action = "@{/newbook}" method="post">
+    <div><label> Название: <input type="text" name="name"/> </label></div>
+
+    <br>
+
+    <div><label> Автор: <input type="text" name="writer"/> </label></div>
+
+    <br>
+
+    <div><label> Описание: <input type="text" name="description"/> </label></div>
+
+    <br>
+
+    <input type="submit" value="Добавить книгу"/>
+</form>
+
+<p><a th:href="@{/main}">Вернуться на главную страницу</a></p>
+</body>
+</html>
