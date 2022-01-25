@@ -27,6 +27,7 @@ public class Book {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
 
+    @Lob
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER)
