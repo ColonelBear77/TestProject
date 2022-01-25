@@ -40,6 +40,7 @@
             <th>Добавлено пользователем</th>
             <th>Дата создания</th>
             <th>Дата последнего обновления</th>
+            <th></th>
         </tr>
         <tr th:each="book: ${books}">
             <td th:text="${book.getName()}"></td>
@@ -48,6 +49,9 @@
             <td th:text="${book.getUser().getUsername()}"></td>
             <td th:text="${#dates.format(book.getCreatedDate(), 'd MMM yyyy HH:mm:ss')}"></td>
             <td th:text="${#dates.format(book.getUpdatedDate(), 'd MMM yyyy HH:mm:ss')}"></td>
+            <td>
+                <a th:href="@{/delete/{id}(id=${book.getId()})}">Удалить</a>
+            </td>
         </tr>
     </table>
 </div>

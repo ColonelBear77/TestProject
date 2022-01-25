@@ -43,4 +43,13 @@ public class MainController {
 
         return "redirect:/";
     }
+
+    @RequestMapping("/delete/{bookId}")
+    public String deleteBook(@PathVariable (value = "bookId") Long bookId){
+        if(bookId != null){
+            bookService.deleteBookById(bookId);
+        }
+
+        return "redirect:/";
+    }
 }
