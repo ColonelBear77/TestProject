@@ -11,8 +11,9 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 public class Book {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @SequenceGenerator(name = "book_id_generator", sequenceName = "book_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_id_generator")
+    private Long id;
 
     private String name;
 
@@ -42,11 +43,11 @@ public class Book {
         this.user = user;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
