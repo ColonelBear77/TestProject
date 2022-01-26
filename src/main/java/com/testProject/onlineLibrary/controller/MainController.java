@@ -28,7 +28,7 @@ public class MainController {
     }
 
     @GetMapping("/newbook")
-    public String newBook(Model model){
+    public String newBook(){
         return "newbook";
     }
 
@@ -40,6 +40,30 @@ public class MainController {
         Book newBook = new Book(name, writer, description, user);
 
         bookService.saveBookInDatabase(newBook);
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/editbook")
+    public String editBook(@RequestParam(name="bookId") Long bookId,
+                            Model model){
+        Book editableBook = bookService.getBookById(bookId);
+        model.addAttribute("book", editableBook);
+        return "editbook";
+    }
+
+    @PostMapping("/editbook")
+    public String saveEditedBook(@RequestParam("id") Long id,
+                                 @RequestParam("name") String name,
+                                 @RequestParam("writer") String writer,
+                                 @RequestParam("description") String description){
+
+        Book editedBook = bookService.getBookById(id);
+        editedBook.setName(name);
+        editedBook.setWriter(writer);
+        editedBook.setDescription(description);
+
+        bookService.saveBookInDatabase(editedBook);
 
         return "redirect:/";
     }

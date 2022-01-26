@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование книги</title>
+</head>
+<body>
+<form th:action = "@{/editbook}" method="post">
+    <input id="id" name="id" type="hidden" th:value="${book.getId()}"/>
+
+    <div><label> Название: <input type="text" name="name" th:value="${book.getName()}" /> </label></div>
+
+    <br>
+
+    <div><label> Автор: <input type="text" name="writer" th:value="${book.getWriter()}"/> </label></div>
+
+    <br>
+
+    <div><label> Описание: <input type="text" name="description" th:value="${book.getDescription()}" maxlength="2000"/> </label></div>
+
+    <br>
+
+    <input type="submit" value="Сохранить изменения"/>
+</form>
+
+<p><a th:href="@{/}">Вернуться на главную страницу без сохранения изменений</a></p>
+</body>
+</html>

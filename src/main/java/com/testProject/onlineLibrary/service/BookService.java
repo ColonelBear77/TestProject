@@ -19,6 +19,11 @@ public class BookService {
         return (List<Book>)bookRepo.findAll();
     }
 
+    public Book getBookById(Long bookId){
+        //todo:?? Значение по умолчанию?
+        return bookRepo.findById(bookId).orElse(null);
+    }
+
     public void saveBookInDatabase(Book book){
         //todo: Добавить проверку на уникальность
         bookRepo.save(book);
