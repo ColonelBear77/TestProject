@@ -1,6 +1,7 @@
 package com.testProject.onlineLibrary.controller;
 
 import com.testProject.onlineLibrary.domain.Book;
+import com.testProject.onlineLibrary.domain.Genre;
 import com.testProject.onlineLibrary.domain.User;
 import com.testProject.onlineLibrary.service.BookService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,7 +29,10 @@ public class MainController {
     }
 
     @GetMapping("/newbook")
-    public String newBook(){
+    public String newBook(Model model){
+        List<Genre> genres = bookService.getAllGenres();
+        model.addAttribute("genres", genres);
+
         return "newbook";
     }
 
@@ -36,8 +40,12 @@ public class MainController {
     public String addBook(@AuthenticationPrincipal User user,
                           @RequestParam("name") String name,
                           @RequestParam("writer") String writer,
+                          @RequestParam("genre") Long genre,
                           @RequestParam("description") String description){
-        Book newBook = new Book(name, writer, description, user);
+
+        Genre genreObject = bookService.getGenreById(genre);
+
+        Book newBook = new Book(name, writer, genreObject, description, user);
 
         bookService.saveBookInDatabase(newBook);
 
@@ -47,8 +55,12 @@ public class MainController {
     @GetMapping("/editbook")
     public String editBook(@RequestParam(name="bookId") Long bookId,
                             Model model){
+
         Book editableBook = bookService.getBookById(bookId);
         model.addAttribute("book", editableBook);
+
+        List<Genre> genres = bookService.getAllGenres();
+        model.addAttribute("genres", genres);
         return "editbook";
     }
 
@@ -56,11 +68,16 @@ public class MainController {
     public String saveEditedBook(@RequestParam("id") Long id,
                                  @RequestParam("name") String name,
                                  @RequestParam("writer") String writer,
+                                 @RequestParam("genre") Long genre,
                                  @RequestParam("description") String description){
 
+        Genre genreObject = bookService.getGenreById(genre);
+
+        //todo: Скорее всего можно забрать модель сразу со страницы
         Book editedBook = bookService.getBookById(id);
         editedBook.setName(name);
         editedBook.setWriter(writer);
+        editedBook.setGenre(genreObject);
         editedBook.setDescription(description);
 
         bookService.saveBookInDatabase(editedBook);

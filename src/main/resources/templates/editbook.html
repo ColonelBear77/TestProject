@@ -17,6 +17,14 @@
 
     <br>
 
+    <div><label> Жанр: <select name="genre">
+        <option selected disabled="disabled">Выберите жанр</option>
+        <option th:each="genre : ${genres}"  th:value="${genre.getId()}" th:text="${genre.getName()}"/>
+    </select>
+    </label></div>
+
+    <br>
+
     <div><label> Описание: <input type="text" name="description" th:value="${book.getDescription()}" maxlength="2000"/> </label></div>
 
     <br>

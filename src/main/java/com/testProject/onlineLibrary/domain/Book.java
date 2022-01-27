@@ -19,6 +19,10 @@ public class Book {
 
     private String writer;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "genre_id")
+    private Genre genre;
+
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
@@ -37,9 +41,10 @@ public class Book {
     public Book(){
     }
 
-    public Book(String name, String writer, String description, User user) {
+    public Book(String name, String writer, Genre genre, String description, User user) {
         this.name = name;
         this.writer = writer;
+        this.genre = genre;
         this.description = description;
         this.user = user;
     }
@@ -67,6 +72,15 @@ public class Book {
     public void setWriter(String author) {
         this.writer = author;
     }
+
+    public Genre getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
+    }
+
 
     public Date getCreatedDate() {
         return createdDate;
