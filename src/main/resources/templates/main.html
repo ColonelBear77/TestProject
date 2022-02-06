@@ -31,6 +31,17 @@
 
 <br>
 
+<form th:action = "@{/search}" method="post">
+    <div><label> Поиск: <select name="genre">
+        <option selected disabled="disabled">Выберите жанр</option>
+        <option th:each="genre : ${genres}"  th:value="${genre.getId()}" th:text="${genre.getName()}"/>
+        Ключевое слово: <input type="text" name="keyword"/>
+    </select>
+    </label>     <input type="submit" value="Найти"/></div>
+</form>
+
+<br>
+
 <div th:unless="${#lists.isEmpty(books)}">
     <table>
         <tr>

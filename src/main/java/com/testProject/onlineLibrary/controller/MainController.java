@@ -8,8 +8,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class MainController {
@@ -25,7 +30,37 @@ public class MainController {
         List<Book> books = bookService.getAllBooks();
         model.addAttribute("books", books);
 
+        List<Genre> genres = bookService.getAllGenres();
+        model.addAttribute("genres", genres);
+
         return "main";
+    }
+
+    @PostMapping("/search")
+    public ModelAndView search(@RequestParam(name="genre", required=false, defaultValue= "-1") Long genre, @RequestParam("keyword") String keyword){
+
+        ModelAndView mav = new ModelAndView("main");
+
+        if(genre != -1){
+            List<Book> booksByGenre = bookService.getBooksByGenre(genre);
+            List<Book> booksByKeyword = bookService.searchBooks(keyword);
+            List<Book> books = new ArrayList<>(booksByGenre.stream()
+                    .distinct()
+                    .filter(booksByKeyword::contains)
+                    .collect(Collectors.toSet()));
+            mav.addObject("books", books);
+        } else if(!keyword.isEmpty()){
+            List<Book> books = bookService.searchBooks(keyword);
+            mav.addObject("books", books);
+        } else{
+            List<Book> books = bookService.getAllBooks();
+            mav.addObject("books", books);
+        }
+
+        List<Genre> genres = bookService.getAllGenres();
+        mav.addObject("genres", genres);
+
+        return mav;
     }
 
     @GetMapping("/newbook")
